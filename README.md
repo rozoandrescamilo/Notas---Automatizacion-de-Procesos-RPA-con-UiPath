@@ -113,4 +113,129 @@ Una vez autenticados, entramos al portal, de lado derecho veremos la opción de 
 
 [![1](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/1.png?raw=true "1")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/1.png?raw=true "1")
 
+#  Primera automatización
+
+## Sequences & Flowcharts
+
+Sequences & Flowcharts son los nombres en inglés de los agrupadores de actividades que UiPath permite utilizar. Durante esta lectura hay ejemplos del uso de estas actividades por su nombre en español, Secuencias y Diagramas de Flujo respectivamente.
+
+**¿Dónde se encuentran?**
+
+Se encuentran dentro de la lista de Actividades por su nombre en inglés. (Esto es así, aunque cambies el idioma del Studio).
+
+[![2](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/2.png?raw=true "2")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/2.png?raw=true "2") [![3](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/3.png?raw=true "3")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/3.png?raw=true "3")
+
+**¿Cómo se usan?**
+
+Estos contenedores, se pueden incrustar dentro del archivo del proyecto “Main.xaml” y cualquier otro archivo XAML. Los contenedores de Secuencia y Diagramas de Flujo, pueden contener dentro de ellos múltiples contenedores de Secuencias y Diagramas de Flujo.
+
+[![4](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/4.png?raw=true "4")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/4.png?raw=true "4")
+
+[![5](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/5.png?raw=true "5")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/5.png?raw=true "5")
+
+Las pantallas anteriores son una pequeña demostración de cómo puedes añadir múltiples Secuencias y Diagramas de Flujo. A continuación, un ejemplo de Diagrama de Flujo que contiene múltiples Secuencias para realizar autenticación en un portal web que requiere certificados.
+
+[![6](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/6.png?raw=true "6")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/6.png?raw=true "6")
+
+Las secuencias del flujo anterior, contienen acciones específicas, como ejemplo podemos ver la Secuencia de Abrir e Ingresar Credenciales.
+
+[![7](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/7.png?raw=true "7")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/7.png?raw=true "7")
+
+**Renombrar actividades**
+
+Para cambiar el nombre de un Diagrama de Flujo (Flowchart), una Secuencia (Sequence) o cualquier Actividad (Activity), solo deben dar doble clic sobre el nombre por defecto que se encuentra en la barra azul/gris.
+
+Otra forma de realizar esta edición es presionar F2 con el objeto previamente seleccionado.
+
+[![8](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/8.png?raw=true "8")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/8.png?raw=true "8")
+
+A manera de práctica se crea estructura con la clases que se verán en el curso de la siguente manera:
+
+[![9](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/9.png?raw=true "9")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/9.png?raw=true "9")
+
+## Variables y archivos XAML
+
+Una **Variable** es:
+
+- Contenedor de información.
+- Tienen alcance definido.
+- Tipos específicos para cada función.
+
+Se unen `Start` y la secuencia de `Variables` que queremos se ejecute:
+
+[![10](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/10.png?raw=true "10")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/10.png?raw=true "10")
+
+Dentro de `Variables` creamos objetos como `Asignar` y `Registrar mensaje` para crear las siguientes variables:
+
+[![11](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/11.png?raw=true "11")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/11.png?raw=true "11")
+
+> Se guarda con `Ctrl+S` y se `Depura` para verificar la Salida.
+
+> Con `Crtl + K` se puede Establecer Variable:..
+
+[![12](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/12.png?raw=true "12")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/12.png?raw=true "12")
+
+Un **Archivo XAML** es: Contendor de actividades que nos permite mandar a llamar el flujo de actividades.
+
+Se crea nueva carpeta en la principal y se agrega nuevo **EscribirHolaMundo.xaml**
+
+[![13](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/13.png?raw=true "13")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/13.png?raw=true "13")
+
+Se une el nuevo **XAML** con la secuencia anterior.
+
+[![14](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/14.png?raw=true "14")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/14.png?raw=true "14")
+
+[![15](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/15.png?raw=true "15")]([![16](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/16.png?raw=true "15")
+
+Nueva variable **in_VarTextoEscribir** es Argumento.
+
+Dentro de **Invoke EscribirHolaMundo** se importa argumento anterior:
+
+[![16](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/16.png?raw=true "16")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/16.png?raw=true "16")
+
+Se guarda con `Ctrl+S` y se depura para verificar Salida.
+
+[![17](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/17.png?raw=true "17")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/17.png?raw=true "17")
+
+Archivo **XAML** sirve para:
+
+- Ordenar código.
+- Segmentar funcionalidad.
+- Reutilizar código / funciones.
+
+## Programar actividades: Open Application & Type Into
+
+`Open Application (Abrir aplicación)` Permite abrir aplicaciones.
+
+`Type into (Escribir texto)` Permite escribir texto plano.
+
+Para el ejercicio se reutiliza el ultimo **XAML** y se cambia nombre a **EscribirTextoEnNotePad.xaml,** se utiliza primero el objeto `Abrir Aplicación` donde se abre Notepad y se escoge en la aplicación. Luego se agrega en `Do` a el objeto `Escribir texto`, lo cual al depurar proceso muestra la salida:
+
+[![19](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/19.png?raw=true "19")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/19.png?raw=true "19")
+
+[![18](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/18.png?raw=true "18")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/18.png?raw=true "18")
+
+## Programar actividades: Attach Windows y uso de selectores
+
+**Attach Windows / Asociar ventana**
+
+Se crea una nueva secuencia `Enfocar aplicación` y se une a al anterior `Invoke`:
+
+[![20](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/20.png?raw=true "20")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/20.png?raw=true "20")
+
+Dentro de la secuencia se crea `Asociar ventana` y `Escribir en`, donde se asociará una ventana de Notepad y se escribirá el nuevo mensaje desde la secuencia `Asociar Aplicación` respectivamente, adicional, se marca Campovacio a la derecha para 
+
+[![21](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/21.png?raw=true "21")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/21.png?raw=true "21")
+
+Al guardar y depurar muestra error por el título del Notepad que se crea en la anterior secuencia, este se cambia con el Selector de edición y se corrige la diferencia "*"
+
+[![22](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/22.png?raw=true "22")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/22.png?raw=true "22") 
+
+[![23](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/23.png?raw=true "23")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/23.png?raw=true "23")
+
+Luego de **Validar** y guardar esta configuración, se depura y ejecuta correctamente:
+
+[![24](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/24.png?raw=true "24")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/24.png?raw=true "24")
+
+[![25](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/25.png?raw=true "25")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/25.png?raw=true "25")
 
