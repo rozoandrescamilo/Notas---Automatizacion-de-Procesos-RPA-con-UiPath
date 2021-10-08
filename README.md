@@ -6,6 +6,16 @@
 
 - [Introducción](#introducción)
   - [¿Quiénes participan en un proyecto RPA?](#quiénes-participan-en-un-proyecto-rpa)
+  - [Descargar e instalar UIPath](#descargar-e-instalar-uipath) 
+- [Primera automatización](#primera-automatización)
+  - [Sequences and Flowcharts](#sequences-and-flowcharts)
+  - [Variables y archivos XAML](#variables-y-archivos-xaml)
+  - [Programar actividades: Open Application and Type Into](#programar-actividades-open-application-and-type-into)
+  - [Programar actividades: Attach Windows y uso de selectores](#programar-actividades-attach-windows-y-uso-de-selectores)
+  - [Descargar e instalar UIPath](#descargar-e-instalar-uipath)
+  - [Descargar e instalar UIPath](#descargar-e-instalar-uipath)
+  - [Descargar e instalar UIPath](#descargar-e-instalar-uipath)
+  - [Descargar e instalar UIPath](#descargar-e-instalar-uipath)
   - [Descargar e instalar UIPath](#descargar-e-instalar-uipath)
 
 
@@ -115,7 +125,7 @@ Una vez autenticados, entramos al portal, de lado derecho veremos la opción de 
 
 #  Primera automatización
 
-## Sequences & Flowcharts
+## Sequences and Flowcharts
 
 Sequences & Flowcharts son los nombres en inglés de los agrupadores de actividades que UiPath permite utilizar. Durante esta lectura hay ejemplos del uso de estas actividades por su nombre en español, Secuencias y Diagramas de Flujo respectivamente.
 
@@ -203,7 +213,7 @@ Archivo **XAML** sirve para:
 - Segmentar funcionalidad.
 - Reutilizar código / funciones.
 
-## Programar actividades: Open Application & Type Into
+## Programar actividades: Open Application and Type Into
 
 `Open Application (Abrir aplicación)` Permite abrir aplicaciones.
 
