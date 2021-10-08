@@ -379,3 +379,143 @@ Se pueden actualizar dependencias actuales en **Project Dependencies** e instala
 Se guardan los cambios y se realizarán los cambios en el proyecto:
 
 [![51](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/51.png?raw=true "51")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/51.png?raw=true "51") [![52](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/52.png?raw=true "52")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/52.png?raw=true "52")
+
+# Descubriendo actividades
+
+## Leer datos de PDF e imagen
+
+- Extraer texto de un archivo.
+- Generar una imagen JPG del archivo.
+- Requiere un paquete de actividades.
+
+### Texto de PDF a Bloc de notas:
+
+Se utiliza la actividad **Leer texto de PDF** seleccionando el archivo .pdf a utilizar, luego se invoca el **.xaml** que utilizamos para escribir en **Bloc de notas**. Para esto se crea la variable `varTextoPDF` y se configura como argumento:
+
+[![53](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/53.png?raw=true "53")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/53.png?raw=true "53")
+
+[![54](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/54.png?raw=true "54")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/54.png?raw=true "54")
+
+### Leer texto de una imagen en PDF a Bloc de notas:
+
+Para esto se utiliza la actividad **Leer PDF con OCR** (OCR es un motor que tiene la función de leer texto de imágenes, en este caso **Microsoft OCR** ) seleccionando de nuevo el archivo .pdf a utilizar, utilizamos de nuevo la variable `varTextoPDF` y se configura como argumento, luego se invoca el **.xaml** que utilizamos para escribir en Bloc de notas: 
+
+[![55](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/55.png?raw=true "55")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/55.png?raw=true "55")
+
+[![56](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/56.png?raw=true "56")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/56.png?raw=true "56")
+
+Para poder **Depurarlo** tenemos que **comentar o inhabilitar** la actividad anterior **Leer texto en PDF,** esto se hace con `Ctrl + D` :
+
+[![56](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/57.png?raw=true "56")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/56.png?raw=true "56")
+
+### Exportar PDF como imagen:
+
+Iniciaremos comentando las anteriores actividades para que no interfieran con el nuevo proceso, se utiliza la actividad **Exportar página en PDF** como imagen donde se selecciona el archivo .pdf, la ruta donde se alojará la imagen (Se le agrega a lo último de la ruta el nombre y la extensión deseada .jpg).  Se configura en **Propiedades** que Numero de página a utilizar y se depura:
+
+[![58](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/58.png?raw=true "58")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/58.png?raw=true "58")
+
+[![59](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/59.png?raw=true "59")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/59.png?raw=true "59")
+
+## Leer imagen y registrar mensaje:
+
+Se agrega la nueva actividad **Cargar** imagen donde se selecciona el archivo .jpg y se crea como salida la variable `varImagen` :
+
+[![60](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/60.png?raw=true "60")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/60.png?raw=true "60")
+
+Luego se enlaza con el motor **Microsoft OCR** donde configuramos en **Propiedades**  que de entrada sea la variable `varImagen` y de salida reutilizamos la variable `varTextoPDF` con el fin de Registrar mensaje en panel de salida:
+
+[![61](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/61.png?raw=true "61")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/61.png?raw=true "61")
+
+[![62](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/62.png?raw=true "62")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/62.png?raw=true "62")
+
+## Utilizar decisiones
+
+Hay tipos de decisiones.
+
+- `If` -> Basado en True or False.
+
+- `Switch` -> Basado en datos estáticos.
+
+- `Ordenar acciones` -> Ordenar acciones.
+
+### Si / If:
+
+Primero para entender el ciclo **Si** se crea cuadro de entrada para preguntar edad de la persona, esta se almacenará en la nueva variable `varRespuestaUsuario` :
+
+[![63](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/63.png?raw=true "63")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/63.png?raw=true "63")
+
+Se agrega la actividad **Si** en donde se escribe la condición de que la variable que almacena la edad sea mayor o igual a 18, como de entrada la variable es de tipo **String** cambiamos esto a número entero con el comando `int32.Parse()` . En caso de que sea correcto **Entonces** se crea **Bandeja de Mensajes** con **Eres mayor de edad** y en caso contrario **Si no** se crea **Bandeja de Mensajes** con **Eres menor de edad.**
+
+[![64](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/64.png?raw=true "64")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/64.png?raw=true "64")
+
+[![65](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/65.png?raw=true "65")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/65.png?raw=true "65")
+
+[![66](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/66.png?raw=true "66")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/66.png?raw=true "66")
+
+[![67](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/67.png?raw=true "67")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/67.png?raw=true "67")
+
+[![68](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/68.png?raw=true "68")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/68.png?raw=true "68")
+
+### Cambiar / Switch:
+
+A diferencia de **Si** esta actividad permite generar una opción **Default o de error,** junto con varias opciones de respuesta **Case** que la persona puede elegir. Utilizamos el cuadro de dialogo anterior y se agrega la actividad **Cambiar** donde se puede configurar para **Default** con todas las opciones un `LogMessage / Registrar mensaje` :
+
+[![69](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/69.png?raw=true "69")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/69.png?raw=true "69")
+
+[![70](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/70.png?raw=true "70")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/70.png?raw=true "70")
+
+[![71](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/71.png?raw=true "71")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/71.png?raw=true "71")
+
+Default:
+
+[![72](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/72.png?raw=true "72")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/72.png?raw=true "72")
+
+Como alternativa a este flujo tambien podemos usar las Flow decisions que funcionan de la misma manera pero resulta ser mejor visualmente, utilizando **Flow Decision** es binario y reemplaza el `Si / If` . El **Flow Switch** tiene el funcionamiento de` Cambiar / Switch` con opción Default y varios Case para utilizar:
+
+[![73](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/73.png?raw=true "73")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/73.png?raw=true "73")
+
+[![74](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/74.png?raw=true "74")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/74.png?raw=true "74")
+
+## Ciclos
+
+Existen 4 tipos de ciclos:
+
+- `For each / Para cada` -> Exclusivo  para Listas y Arreglos.
+
+- `For each row / Para cada fila de Tabla de datos` -> Exclusivo para DataTable.
+
+- `While / Mientras` -> Primero verifica la condición y luego se ejecuta.
+
+- `Do-While / Hacer mientras` -> Ejecuta y luego verifica la condición.
+
+### For each / Para cada:
+
+Se inicia con crear la variable `lstMensaje` la cual se le debe asignar un tipo de variable de Lista como se ve en las imágenes, y se agregan actividades **Añadir colección** para escribir en la lista un mensaje de tipo String tres veces:
+
+[![75](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/75.png?raw=true "75")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/75.png?raw=true "75")
+
+[![76](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/76.png?raw=true "76")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/76.png?raw=true "76")
+
+Primero se crea mensaje para escribir la variable de tipo lista vacía, para luego insertar actividad **Para cada** dónde se establece que `itemMensaje` guardara el mensaje añadido. Entonces para cada **itemMensaje** en la lstMensaje el robot escribira en salida cada uno de los mensajes escritos en los **Anadir colección:**
+
+[![77](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/77.png?raw=true "77")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/77.png?raw=true "77")
+
+[![78](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/78.png?raw=true "78")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/78.png?raw=true "78")
+
+### While / Mientras:
+
+Se registra mensaje indicando que empieza salida de ciclo while, se asigna la nueva variable `varContador` de tipo **int32** con valor inicial a cero. Al ingresar la actividad de control **Mientras** como condición ponemos que la variable deba ser menor a 10 y que cada vez se escriba un mensaje de salida con el valor actual de la variable y luego se le sume 1.
+
+[![79](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/79.png?raw=true "79")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/79.png?raw=true "79")
+
+[![80](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/80.png?raw=true "80")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/80.png?raw=true "80")
+
+[![81](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/81.png?raw=true "81")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/81.png?raw=true "81")
+
+### Do-While / Hacer mientras:
+
+Esta actividad funciona primero haciendo el proceso de escribir el valor de la variable, sumarle 1 a esta y después verifica que si la variable actual es menor a 20 continua a la siguiente:
+
+[![82](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/82.png?raw=true "82")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/82.png?raw=true "82")
+
+[![83](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/83.png?raw=true "83")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/83.png?raw=true "83")
