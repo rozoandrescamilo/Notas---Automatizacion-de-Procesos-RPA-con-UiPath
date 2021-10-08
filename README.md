@@ -249,3 +249,133 @@ Luego de **Validar** y guardar esta configuración, se depura y ejecuta correcta
 
 [![25](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/25.png?raw=true "25")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/25.png?raw=true "25")
 
+# Buenas prácticas y herramientas
+
+## Combinar actividades con código
+
+- Lenguaje Soportado: Visual Basic
+- Se está buscando integración con C# y Java
+- Integración de forma nativa
+- Fácil de combinar
+
+Para empezar, se reutilizará la parte de Variables pero con unos cambios internos, se agrega las palabras “Automation, Python, Ubuntu”:
+
+[![26](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/26.png?raw=true "26")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/26.png?raw=true "26") [![27](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/27.png?raw=true "27")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/27.png?raw=true "27")
+
+Luego se crea nueva secuencia **Codificación** y se une a **Variables,** se crea objeto Asignar, una variable nueva `arrayPalabrasClaves` y `Registrar mensaje`, sus valores son:
+
+`arrayPalabrasClaves `= `Split(VarTextoAEscribir, ",")`
+
+`Mensaje` = `"Encontré " + arrayPalabrasClaves.Length().ToString + " palabras clave"`
+
+[![28](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/28.png?raw=true "28")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/28.png?raw=true "28")[![29](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/29.png?raw=true "29")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/29.png?raw=true "29")
+
+Esto devolverá de salida las palabras clave escritas y la cantidad de palabras.
+
+`Split` -> Es una función para dividir texto en el caso anterior separados por “,”
+
+`Lenght()` -> Se utiliza para saber longitud o contar lo que está en el array
+
+`ToString` -> Para volver String o texto el resultado del Lenght
+
+Se crea la carpeta **Archivos** y se crea archivo .txt con palabras clave, se crea variable `varCantidadArchivos` y se utilizan las siguientes entradas de código en los valores:
+
+`varCantidadArchivos` = `Directory.GetFiles("C:\Users\andre\Desktop\Class book\Robotic process automation\CursoRPA_Platzi\Archivos", "*").Count() `
+
+`Mensaje` = `"Encontré " + varCantidadArchivos.ToString + " archivos"`
+
+[![30](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/30.png?raw=true "30")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/30.png?raw=true "30")
+
+La salida correspondiente para este flujo seria la siguiente:
+
+[![31](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/31.png?raw=true "31")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/31.png?raw=true "31")
+
+## Modo depuración y puntos de ruptura
+
+- Permite pausar las ejecuciones.
+- Ver errores durante la ejecución.
+- Mostrar ventanas complementarias.
+
+Se activa con un clic los **Puntos de interrupción** (Doble clic para desactivar) y se selecciona la parte en donde empezará (Asignar), luego se depura el archivo y aparecerá ventana en la izquierda con la información de las Variables y propiedades:
+
+[![32](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/32.png?raw=true "32")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/32.png?raw=true "32")
+
+Selecciona **Entre** en para continuar con la siguiente secuencia y obtener la información relevante del paso dado, **Continuar** para que siga depurando sin detenerse.
+
+[![33](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/33.png?raw=true "33")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/33.png?raw=true "33")
+
+**Puntos de interrupción:** Pausa la depuración por partes donde se obtendrá ventana con información de las variables, propiedades y salidas.
+
+**Paso lento:** Se pueden usar hasta 4 niveles de lentitud para monitorear cada paso del flujo de ejecución.
+
+**Tasa o seguimiento de Ejecución:**  Marcar que actividades se marcan de manera correcta.
+
+**Actividades de registro:** Va permitir ver de manera detallada y puntual que está ejecutando el robot en cada ejecución.
+
+**Elementos destacados:** Elementos de interfaz con los que se esta interactuando.
+
+[![34](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/34.png?raw=true "34")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/34.png?raw=true "34")
+
+## Control de versiones Git
+
+Para poder utilizarlo, debemos tener un proyecto existente, para esta demostración utilizaremos el proyecto generado para el curso. 
+
+Primero cree repositorio en **GitHub** con el nombre de la carpeta del curso para poder realizar control de versión con **UiPath:**
+
+[![35](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/35.png?raw=true "35")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/35.png?raw=true "35")
+
+Navegaremos al menú de **INICIO** y luego al menú izquierdo que dice **Team / Equipo.**
+
+[![36](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/36.png?raw=true  "36")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/36.png?raw=true  "36") [![37](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/37.png?raw=true  "37")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/37.png?raw=true  "37")
+
+De lado derecho se mostrarán las opciones para integrar nuestro proyecto a un Controlador de Versiones (GIT, TFS, SVN). Para este curso usaremos en particular, el sistema de **GIT** y **GitHub.**
+
+Vamos a realizar un `Git Init / Iniciación en Git` en nuestro proyecto, para crear el repositorio local. Para esto solo debemos dar clic en Git Init.
+
+Se mostrará una ventana que nos dará la lista de archivos que serán incluidos en el control de versiones.
+
+[![38](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/38.png?raw=true "38")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/38.png?raw=true "38")
+
+Debemos colocar un mensaje de inicialización en el cuadro inferior y luego dar clic en `Commit.`
+
+[![39](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/39.png?raw=true "39")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/39.png?raw=true "39")
+
+Validar que **Git** se implementó con el control de versiones, para esto damos clic derecho sobre el proyecto en la pestaña de **Project.**
+
+[![40](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/40.png?raw=true "40")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/40.png?raw=true "40") [![41](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/41.png?raw=true "41")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/41.png?raw=true "41")
+
+Vamos a dar clic sobre `Push / Insertar` para subir nuestro proyecto al repositorio de GitHub.
+
+[![42](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/42.png?raw=true "42")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/42.png?raw=true "42")
+
+ > URL termina en .git
+
+ Mensaje de confirmación de actualización:
+
+[![43](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/43.png?raw=true "43")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/43.png?raw=true "43")
+
+Para comparar cambios realizados podemos utilizar las siguientes opciones:
+
+[![44](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/44.png?raw=true "44")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/44.png?raw=true "44") [![45](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/45.png?raw=true "45")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/45.png?raw=true "45")
+
+Insertar cambios nuevos:
+
+[![46](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/46.png?raw=true "46")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/46.png?raw=true "46") [![47](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/47.png?raw=true "47")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/47.png?raw=true "47")
+
+## Manage Packages o Administrador de Paquetes
+
+Es una poderosa herramienta de UiPath que nos permite buscar, instalar, actualizar o quitar **Paquetes de Actividades** de nuestro proyecto. Esto nos sirve para obtener funcionalidades oficiales o de algún desarrollador que se dio a la tarea de crear un paquete de actividades con funciones específicas.
+
+Nuestro Administrador de Paquetes se encuentra en la pestaña de **Design:**
+
+[![48](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/48.png?raw=true "48")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/48.png?raw=true "48")
+
+Se pueden actualizar dependencias actuales en **Project Dependencies** e instalar nuevas en **All Packages:**
+
+[![49](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/49.png?raw=true "49")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/47.png?raw=true "49")
+
+[![50](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/50.png?raw=true "50")](http://https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/50.png?raw=true "50")
+
+Se guardan los cambios y se realizarán los cambios en el proyecto:
+
+[![51](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/51.png?raw=true "51")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/51.png?raw=true "51") [![52](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/52.png?raw=true "52")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/52.png?raw=true "52")
