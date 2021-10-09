@@ -249,3 +249,507 @@ Luego de **Validar** y guardar esta configuración, se depura y ejecuta correcta
 
 [![25](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/25.png?raw=true "25")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/25.png?raw=true "25")
 
+# Buenas prácticas y herramientas
+
+## Combinar actividades con código
+
+- Lenguaje Soportado: Visual Basic
+- Se está buscando integración con C# y Java
+- Integración de forma nativa
+- Fácil de combinar
+
+Para empezar, se reutilizará la parte de Variables pero con unos cambios internos, se agrega las palabras “Automation, Python, Ubuntu”:
+
+[![26](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/26.png?raw=true "26")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/26.png?raw=true "26") [![27](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/27.png?raw=true "27")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/27.png?raw=true "27")
+
+Luego se crea nueva secuencia **Codificación** y se une a **Variables,** se crea objeto Asignar, una variable nueva `arrayPalabrasClaves` y `Registrar mensaje`, sus valores son:
+
+`arrayPalabrasClaves `= `Split(VarTextoAEscribir, ",")`
+
+`Mensaje` = `"Encontré " + arrayPalabrasClaves.Length().ToString + " palabras clave"`
+
+[![28](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/28.png?raw=true "28")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/28.png?raw=true "28")[![29](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/29.png?raw=true "29")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/29.png?raw=true "29")
+
+Esto devolverá de salida las palabras clave escritas y la cantidad de palabras.
+
+`Split` -> Es una función para dividir texto en el caso anterior separados por “,”
+
+`Lenght()` -> Se utiliza para saber longitud o contar lo que está en el array
+
+`ToString` -> Para volver String o texto el resultado del Lenght
+
+Se crea la carpeta **Archivos** y se crea archivo .txt con palabras clave, se crea variable `varCantidadArchivos` y se utilizan las siguientes entradas de código en los valores:
+
+`varCantidadArchivos` = `Directory.GetFiles("C:\Users\andre\Desktop\Class book\Robotic process automation\CursoRPA_Platzi\Archivos", "*").Count() `
+
+`Mensaje` = `"Encontré " + varCantidadArchivos.ToString + " archivos"`
+
+[![30](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/30.png?raw=true "30")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/30.png?raw=true "30")
+
+La salida correspondiente para este flujo seria la siguiente:
+
+[![31](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/31.png?raw=true "31")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/31.png?raw=true "31")
+
+## Modo depuración y puntos de ruptura
+
+- Permite pausar las ejecuciones.
+- Ver errores durante la ejecución.
+- Mostrar ventanas complementarias.
+
+Se activa con un clic los **Puntos de interrupción** (Doble clic para desactivar) y se selecciona la parte en donde empezará (Asignar), luego se depura el archivo y aparecerá ventana en la izquierda con la información de las Variables y propiedades:
+
+[![32](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/32.png?raw=true "32")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/32.png?raw=true "32")
+
+Selecciona **Entre** en para continuar con la siguiente secuencia y obtener la información relevante del paso dado, **Continuar** para que siga depurando sin detenerse.
+
+[![33](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/33.png?raw=true "33")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/33.png?raw=true "33")
+
+**Puntos de interrupción:** Pausa la depuración por partes donde se obtendrá ventana con información de las variables, propiedades y salidas.
+
+**Paso lento:** Se pueden usar hasta 4 niveles de lentitud para monitorear cada paso del flujo de ejecución.
+
+**Tasa o seguimiento de Ejecución:**  Marcar que actividades se marcan de manera correcta.
+
+**Actividades de registro:** Va permitir ver de manera detallada y puntual que está ejecutando el robot en cada ejecución.
+
+**Elementos destacados:** Elementos de interfaz con los que se esta interactuando.
+
+[![34](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/34.png?raw=true "34")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/34.png?raw=true "34")
+
+## Control de versiones Git
+
+Para poder utilizarlo, debemos tener un proyecto existente, para esta demostración utilizaremos el proyecto generado para el curso. 
+
+Primero cree repositorio en **GitHub** con el nombre de la carpeta del curso para poder realizar control de versión con **UiPath:**
+
+[![35](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/35.png?raw=true "35")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/35.png?raw=true "35")
+
+Navegaremos al menú de **INICIO** y luego al menú izquierdo que dice **Team / Equipo.**
+
+[![36](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/36.png?raw=true  "36")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/36.png?raw=true  "36") [![37](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/37.png?raw=true  "37")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/37.png?raw=true  "37")
+
+De lado derecho se mostrarán las opciones para integrar nuestro proyecto a un Controlador de Versiones (GIT, TFS, SVN). Para este curso usaremos en particular, el sistema de **GIT** y **GitHub.**
+
+Vamos a realizar un `Git Init / Iniciación en Git` en nuestro proyecto, para crear el repositorio local. Para esto solo debemos dar clic en Git Init.
+
+Se mostrará una ventana que nos dará la lista de archivos que serán incluidos en el control de versiones.
+
+[![38](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/38.png?raw=true "38")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/38.png?raw=true "38")
+
+Debemos colocar un mensaje de inicialización en el cuadro inferior y luego dar clic en `Commit.`
+
+[![39](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/39.png?raw=true "39")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/39.png?raw=true "39")
+
+Validar que **Git** se implementó con el control de versiones, para esto damos clic derecho sobre el proyecto en la pestaña de **Project.**
+
+[![40](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/40.png?raw=true "40")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/40.png?raw=true "40") [![41](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/41.png?raw=true "41")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/41.png?raw=true "41")
+
+Vamos a dar clic sobre `Push / Insertar` para subir nuestro proyecto al repositorio de GitHub.
+
+[![42](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/42.png?raw=true "42")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/42.png?raw=true "42")
+
+ > URL termina en .git
+
+ Mensaje de confirmación de actualización:
+
+[![43](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/43.png?raw=true "43")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/43.png?raw=true "43")
+
+Para comparar cambios realizados podemos utilizar las siguientes opciones:
+
+[![44](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/44.png?raw=true "44")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/44.png?raw=true "44") [![45](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/45.png?raw=true "45")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/45.png?raw=true "45")
+
+Insertar cambios nuevos:
+
+[![46](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/46.png?raw=true "46")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/46.png?raw=true "46") [![47](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/47.png?raw=true "47")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/47.png?raw=true "47")
+
+## Manage Packages o Administrador de Paquetes
+
+Es una poderosa herramienta de UiPath que nos permite buscar, instalar, actualizar o quitar **Paquetes de Actividades** de nuestro proyecto. Esto nos sirve para obtener funcionalidades oficiales o de algún desarrollador que se dio a la tarea de crear un paquete de actividades con funciones específicas.
+
+Nuestro Administrador de Paquetes se encuentra en la pestaña de **Design:**
+
+[![48](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/48.png?raw=true "48")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/48.png?raw=true "48")
+
+Se pueden actualizar dependencias actuales en **Project Dependencies** e instalar nuevas en **All Packages:**
+
+[![49](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/49.png?raw=true "49")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/47.png?raw=true "49")
+
+[![50](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/50.png?raw=true "50")](http://https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/50.png?raw=true "50")
+
+Se guardan los cambios y se realizarán los cambios en el proyecto:
+
+[![51](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/51.png?raw=true "51")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/51.png?raw=true "51") [![52](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/52.png?raw=true "52")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/52.png?raw=true "52")
+
+# Descubriendo actividades
+
+## Leer datos de PDF e imagen
+
+- Extraer texto de un archivo.
+- Generar una imagen JPG del archivo.
+- Requiere un paquete de actividades.
+
+### Texto de PDF a Bloc de notas:
+
+Se utiliza la actividad **Leer texto de PDF** seleccionando el archivo .pdf a utilizar, luego se invoca el **.xaml** que utilizamos para escribir en **Bloc de notas**. Para esto se crea la variable `varTextoPDF` y se configura como argumento:
+
+[![53](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/53.png?raw=true "53")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/53.png?raw=true "53")
+
+[![54](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/54.png?raw=true "54")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/54.png?raw=true "54")
+
+### Leer texto de una imagen en PDF a Bloc de notas:
+
+Para esto se utiliza la actividad **Leer PDF con OCR** (OCR es un motor que tiene la función de leer texto de imágenes, en este caso **Microsoft OCR** ) seleccionando de nuevo el archivo .pdf a utilizar, utilizamos de nuevo la variable `varTextoPDF` y se configura como argumento, luego se invoca el **.xaml** que utilizamos para escribir en Bloc de notas: 
+
+[![55](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/55.png?raw=true "55")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/55.png?raw=true "55")
+
+[![56](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/56.png?raw=true "56")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/56.png?raw=true "56")
+
+Para poder **Depurarlo** tenemos que **comentar o inhabilitar** la actividad anterior **Leer texto en PDF,** esto se hace con `Ctrl + D` :
+
+[![56](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/57.png?raw=true "56")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/56.png?raw=true "56")
+
+### Exportar PDF como imagen:
+
+Iniciaremos comentando las anteriores actividades para que no interfieran con el nuevo proceso, se utiliza la actividad **Exportar página en PDF** como imagen donde se selecciona el archivo .pdf, la ruta donde se alojará la imagen (Se le agrega a lo último de la ruta el nombre y la extensión deseada .jpg).  Se configura en **Propiedades** que Numero de página a utilizar y se depura:
+
+[![58](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/58.png?raw=true "58")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/58.png?raw=true "58")
+
+[![59](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/59.png?raw=true "59")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/59.png?raw=true "59")
+
+## Leer imagen y registrar mensaje:
+
+Se agrega la nueva actividad **Cargar** imagen donde se selecciona el archivo .jpg y se crea como salida la variable `varImagen` :
+
+[![60](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/60.png?raw=true "60")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/60.png?raw=true "60")
+
+Luego se enlaza con el motor **Microsoft OCR** donde configuramos en **Propiedades**  que de entrada sea la variable `varImagen` y de salida reutilizamos la variable `varTextoPDF` con el fin de Registrar mensaje en panel de salida:
+
+[![61](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/61.png?raw=true "61")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/61.png?raw=true "61")
+
+[![62](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/62.png?raw=true "62")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/62.png?raw=true "62")
+
+## Utilizar decisiones
+
+Hay tipos de decisiones.
+
+- `If` -> Basado en True or False.
+
+- `Switch` -> Basado en datos estáticos.
+
+- `Ordenar acciones` -> Ordenar acciones.
+
+### Si / If:
+
+Primero para entender el ciclo **Si** se crea cuadro de entrada para preguntar edad de la persona, esta se almacenará en la nueva variable `varRespuestaUsuario` :
+
+[![63](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/63.png?raw=true "63")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/63.png?raw=true "63")
+
+Se agrega la actividad **Si** en donde se escribe la condición de que la variable que almacena la edad sea mayor o igual a 18, como de entrada la variable es de tipo **String** cambiamos esto a número entero con el comando `int32.Parse()` . En caso de que sea correcto **Entonces** se crea **Bandeja de Mensajes** con **Eres mayor de edad** y en caso contrario **Si no** se crea **Bandeja de Mensajes** con **Eres menor de edad.**
+
+[![64](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/64.png?raw=true "64")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/64.png?raw=true "64")
+
+[![65](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/65.png?raw=true "65")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/65.png?raw=true "65")
+
+[![66](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/66.png?raw=true "66")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/66.png?raw=true "66")
+
+[![67](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/67.png?raw=true "67")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/67.png?raw=true "67")
+
+[![68](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/68.png?raw=true "68")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/68.png?raw=true "68")
+
+### Cambiar / Switch:
+
+A diferencia de **Si** esta actividad permite generar una opción **Default o de error,** junto con varias opciones de respuesta **Case** que la persona puede elegir. Utilizamos el cuadro de dialogo anterior y se agrega la actividad **Cambiar** donde se puede configurar para **Default** con todas las opciones un `LogMessage / Registrar mensaje` :
+
+[![69](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/69.png?raw=true "69")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/69.png?raw=true "69")
+
+[![70](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/70.png?raw=true "70")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/70.png?raw=true "70")
+
+[![71](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/71.png?raw=true "71")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/71.png?raw=true "71")
+
+Default:
+
+[![72](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/72.png?raw=true "72")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/72.png?raw=true "72")
+
+Como alternativa a este flujo tambien podemos usar las Flow decisions que funcionan de la misma manera pero resulta ser mejor visualmente, utilizando **Flow Decision** es binario y reemplaza el `Si / If` . El **Flow Switch** tiene el funcionamiento de` Cambiar / Switch` con opción Default y varios Case para utilizar:
+
+[![73](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/73.png?raw=true "73")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/73.png?raw=true "73")
+
+[![74](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/74.png?raw=true "74")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/74.png?raw=true "74")
+
+## Ciclos
+
+Existen 4 tipos de ciclos:
+
+- `For each / Para cada` -> Exclusivo  para Listas y Arreglos.
+
+- `For each row / Para cada fila de Tabla de datos` -> Exclusivo para DataTable.
+
+- `While / Mientras` -> Primero verifica la condición y luego se ejecuta.
+
+- `Do-While / Hacer mientras` -> Ejecuta y luego verifica la condición.
+
+### For each / Para cada:
+
+Se inicia con crear la variable `lstMensaje` la cual se le debe asignar un tipo de variable de Lista como se ve en las imágenes, y se agregan actividades **Añadir colección** para escribir en la lista un mensaje de tipo String tres veces:
+
+[![75](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/75.png?raw=true "75")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/75.png?raw=true "75")
+
+[![76](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/76.png?raw=true "76")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/76.png?raw=true "76")
+
+Primero se crea mensaje para escribir la variable de tipo lista vacía, para luego insertar actividad **Para cada** dónde se establece que `itemMensaje` guardara el mensaje añadido. Entonces para cada **itemMensaje** en la lstMensaje el robot escribira en salida cada uno de los mensajes escritos en los **Anadir colección:**
+
+[![77](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/77.png?raw=true "77")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/77.png?raw=true "77")
+
+[![78](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/78.png?raw=true "78")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/78.png?raw=true "78")
+
+### While / Mientras:
+
+Se registra mensaje indicando que empieza salida de ciclo while, se asigna la nueva variable `varContador` de tipo **int32** con valor inicial a cero. Al ingresar la actividad de control **Mientras** como condición ponemos que la variable deba ser menor a 10 y que cada vez se escriba un mensaje de salida con el valor actual de la variable y luego se le sume 1.
+
+[![79](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/79.png?raw=true "79")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/79.png?raw=true "79")
+
+[![80](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/80.png?raw=true "80")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/80.png?raw=true "80")
+
+[![81](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/81.png?raw=true "81")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/81.png?raw=true "81")
+
+### Do-While / Hacer mientras:
+
+Esta actividad funciona primero haciendo el proceso de escribir el valor de la variable, sumarle 1 a esta y después verifica que si la variable actual es menor a 20 continua a la siguiente:
+
+[![82](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/82.png?raw=true "82")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/82.png?raw=true "82")
+
+[![83](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/83.png?raw=true "83")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/83.png?raw=true "83")
+
+## Interacción con navegador web
+
+- Uso muy frecuente.
+- Requiere plugin complementario.
+- Selectores.
+- Extracción de datos
+- Interacción con interfaz.
+
+Entrando en **Herramientas** se puede descargar Plugin del navegador que utilizamos, se confirma **extensión** dentro de este y se puede verificar en chrome://extensions/
+
+[![84](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/84.png "84")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/84.png "84")
+
+Se utiliza actividad **Abrir navegador** donde se configura en Propiedades el **BrowserType** y escribimos como parámetro “google.com”. Dentro irá una secuencia `Do / Hacer` la actividad Ir a donde buscará en el navegador elegido hacia la dirección “platzi.com”:
+
+[![85](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/85.png "85")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/85.png "85")
+
+Después de Ir a “platzi.com” utilizamos la función **Clic** para seleccionar la secuencia para iniciar la sesión.
+
+[![86](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/86.png "86")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/86.png "86")
+
+Se crean variables `inUsuario` e `inContraseña` (Contiene String con user y password) para el ejercicio y se utilizan en las actividades **Escribir** en para autenticar en la pagina.
+
+Luego al probar esta secuencia `Do / Hacer` damos clic derecho y la **Extraemos como flujo de trabajo,** un .xaml que podremos usar en cualquier momento para Autenticar en Platzi:
+
+[![87](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/87.png "87")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/87.png "87")
+
+Al correr la secuencia se rompe debido al error que no se seleccionó el browser en la secuencia de **Hacer,** entonces se selecciona como salida de **Abrir navegador** la nueva variable `BrowserAbierto` y en la entrada de la actividad **Ir a** se pone como navegador el argumento `in_Browser` . Esto con el fin de enlazar la entrada a Chrome y la búsqueda de la página de Platzi:
+
+[![88](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/88.png "88")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/88.png "88")
+
+[![89](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/89.png "89")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/89.png "89")
+
+Como argumentos dentro del flujo de trabajo se configuran de la siguiente manera para que corra el robot:
+
+[![90](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/90.png "90")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/90.png "90")
+
+> Con la anterior configuración ya debe funcionar el robot y dejar la sesión iniciada. Pero, ¿Qué pasa cuando la sesión ya estaba iniciada?
+
+Para esto cortaremos el Ir a “platzi.com” del flujo de trabajo **AutenticarEnPlatzi** y lo pegaremos en el inicio ante del flujo que invocamos. Esto lo convertirá en una secuencia la cual enlazaremos con la salida de **Abrir navegador** , por lo que de entrada en el **Navegador** pondremos la variable `BrowserAbierto.`
+
+[![91](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/91.png "91")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/91.png "91")
+
+Se agrega **Elemento existente** con el fin de validar un objeto en la interfaz en este caso es el contador de puntos de Platzi, clic derecho y damos en **Selector de edición:**
+
+[![92](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/92.png "92")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/92.png "92")
+
+En la ventana emergente damos en **Indicar elemento** y seleccionamos el contador de puntos en la página Google que se abrió la sesión Platzi. A continuación, se configura la edición de texto de la siguiente manera para que seleccione con la expresión * xxx que significa todo lo que contenga la siguiente expresión xxx. Se valida y se aceptan los cambios realizados.
+
+[![93](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/93.png "93")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/93.png "93") 
+
+[![94](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/94.png "94")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/94.png "94")
+
+Ahora requerimos crear una variable llamada `varBanderaAutenticacion` en las propiedades de salida, la cual nos servirá como condición en el siguiente paso:
+
+[![95](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/95.png "95")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/95.png "95")
+
+Se agrega actividad de control **Si** donde evalúa que, si es correcto que hay valores en el contador de puntos en Platzi registra mensaje de “La sesión ya está abierta”, si no realiza el workflow para autenticar usuario y contraseña:
+
+[![96](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/96.png "96")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/96.png "96")
+
+Salida donde verificó que estaba abierta la sesión:
+
+[![97](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/97.png "97")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/97.png "97")
+
+Salida para cuando llega a opción de utilizar workflow:
+
+[![98](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/98.png "98")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/98.png "98")
+
+## Extraer datos con Data Scrapting
+
+- Leer datos estructurados.
+- Guardar datos de un DataTable.
+- Altamente organizada.
+- Patrón predecible.
+
+Ya con la ventana abierta en el buscador de Platzi sobre los cursos de **Python** seleccionamos la opción de `Extracción de datos` , lo cual traerá esta ventana para configurar:
+
+[![99](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/99.png "99")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/99.png "99")
+
+Se selecciona **Sig.** y elegimos el primer elemento o primer curso en este caso, después nos pedirá elegir el siguiente dato o curso para identificarlos en la **Data Table.** Permite configurar las columnas que se extraerán donde se elige las opciones de `Extraer texto` y `Extraer URL` (Para este momento ya aparecen subrayados todos los datos elegidos).
+
+[![100](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/100.png "100")]([![101](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/101.png "101")
+
+Se da una vista previa de esa tabla con todos los datos extraídos de la página en la que estamos trabajando con o sin límite y también pregunta si la selección de datos aplica para otra página (En este caso NO).
+
+[![101](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/101.png "101")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/101.png "101")
+
+[![102](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/102.png "102")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/102.png "102")
+
+Se corta la actividad de **Extraer datos estructurados "URL"** y se organiza después del **Ir a** como se ve en la imagen, como dato de salida creamos la variable `dtCursosEncontrados` que guarde los datos y se realiza el mensaje con los comandos `.Rows.Count.ToString` para que nos arroje la cantidad de datos obtenidos (100):
+
+[![103](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/103.png "103")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/103.png "103")
+
+## Manejar DataTable
+
+Organizar información.
+
+Interacción de datos mediante filas y comlumnas.
+
+Se unen en actividades como:
+
+- Consulta a Base de Datos.
+
+- Lectura de Exceles.
+
+- Almacenar información estructurada.
+
+Como primer paso configuramos la variable `dtCursosEncontrados` para que la podamos ver en todo el ejercicio:
+
+[![104](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/104.png "104")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/104.png "104")
+
+Agregamos secuencia de Tabla de datos donde se utiliza la actividad **Para cada fila de la tabla de datos,** para cada `row/fila` en la variable que nos guarda los datos extraídos nos va a imprimir de salida el nombre de cada uno de los Cursos que están en la columna **NombreCurso.**
+
+[![105](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/105.png "105")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/105.png "105") [![106](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/106.png "106")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/106.png "106")
+
+Ahora utilizaremos la actividad **Agregar columna de datos** para la cual creamos **EstatusCurso** donde dirá el estado actual del curso ejem. “Pendiente”:
+
+[![107](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/107.png "107")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/107.png "107")
+
+Seguido de esto utilizaremos de nuevo actividad **Para cada fila de la tabla de datos** para que en cada fila se asigne un “Pendiente”. Como mensaje de salida configuramos el nombre y el estado con los siguientes comandos: `CurrentRow(0).ToString + " - " + CurrentRow("EstatusCurso").ToString`
+
+[![108](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/108.png "108")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/108.png "108") [![109](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/109.png "109")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/109.png "109")
+
+Ahora comentamos los anteriores **Registrar mensajes** para que nos permita visualizar mejor la salida. Vamos a trabajar con la actividad **Tabla de datos de salida** para extraer la información en texto plano separando columnas por comas. En esta se crea la variable `varTextodelDT` que nos almacenará todo el texto de la Data Table.
+
+[![110](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/110.png "110")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/110.png "110")
+
+## Interactuar con Excel
+
+- Leer Exceles.
+- Guardar en Excel en DataTable.
+- Escribir en Excel.
+- Eliminar filas.
+- Insertar filas.
+- Entre otras acciones.
+
+Primero se trabajará sobre leer un data table y escribir su contenido en una hoja de Excel. Se abre la actividad **Ámbito de aplicación de Excel** la cual nos permite hacer algo con un archivo .xlsx de acuerdo a su ruta. Al final de la ruta se escribe el nombre del nuevo archivo `\CursoPlatzi.xlsx`
+
+[![111](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/111.png "111")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/111.png "111")
+
+[![112](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/112.png "112")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/112.png "112")
+
+Dentro de la secuencia de hacer se utiliza actividad **Escribir rango** donde se especifica el nombre de la primera hoja y la celda donde empezar. La variable de entrada v`arCursosEncontrados` era donde en la secuencia Tabla de datos guardamos toda la información en un data table.
+
+[![113](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/113.png "113")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/113.png "113")
+
+Al revisar el archivo Excel que se creó se puede evidenciar como organizó el data table en la primera hoja del nuevo Excel y cada columna con su encabezado correspondiente.
+
+[![114](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/114.png "114")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/114.png "114")
+
+Ahora, vamos a leer el archivo Excel y vamos a extraer la información en una variable para mostrar en salida. Para esto cambiamos la dirección en que se ejecutará el flujo, comentamos el **Ámbito de aplicación de Excel** anterior y agregamos uno nuevo. Dentro de la secuencia hacer agregamos actividad **Leer rango** especificando la hoja y la celda (Si se deja “” leerá toda la hoja). Como variable de salida recolectamos la info en `dtCursosEncontrados.`
+
+[![115](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/115.png "115")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/115.png "115")
+
+[![116](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/116.png "116")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/116.png "116")
+
+Luego ponemos la **Tabla de datos de salida** para que tome la información del data table `dtCursosEncontrados` y la almacene en la variable `varTextoAEscribir` . Luego con un mensaje realizamos la salida.
+
+[![117](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/117.png "117")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/117.png "117")
+
+[![118](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/118.png "118")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/118.png "118")
+
+También podemos leer una celda con actividad **Leer celda.** De igual manera se puede explorar todas las actividades que se pueden utilizar al escribir Excel.
+
+## Configuración Gmail
+
+Primero navegamos a Administración de Cuenta de Google ( https://myaccount.google.com )
+
+[![119](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/119.png "119")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/119.png "119")
+
+Pantalla principal de Administración de Cuenta de Google.
+
+Luego en el menú de Seguridad, ubicado de lado izquierdo de la pantalla, damos clic.
+
+[![120](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/120.png "120")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/120.png "120")
+
+Una vez en la sección de Seguridad debemos modificar lo siguiente:
+
+[![121](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/121.png "121")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/121.png "121")
+
+Desactivar la autenticación por teléfono y la verificación de 2 pasos.
+
+[![122](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/122.png "122")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/122.png "122")
+
+Activar el acceso de aplicaciones menos seguras.
+Con estos pasos cubiertos, Gmail permitirá que UiPath interactúe con la bandeja de entrada y salida (para recibir y enviar correos).
+
+## Interactuar con Correo
+
+- Comunicación (del robot).
+- Leer correos.
+- Enviar correos nuevos o responder anteriores.
+- Guardar archivos adjuntos.
+
+Primero se probará el envío de mensajes por correo para lo cual utilizaremos actividad **Enviar mensaje de correo SMTP** (System Mail Transfer Protocol). Para esto requerimos configurar el puerto a **465** y el servidor **smtp.gmail.com,** también llenar la información de correo y contraseña de donde saldrá el mensaje.
+
+[![123](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/123.png "123")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/123.png "123")
+
+[![124](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/124.png "124")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/124.png "124")
+
+Ahora, vamos a obtener mensajes no leídos en el correo que tenemos. Para esto vamos a utilizar actividad **Obtener mensajes de correo IMAP** (Internet Message Access Protocol), configurando el puerto a **993** y el servidor imap.gmail.com, también llenar la información de correo y contraseña de donde saldrá el mensaje.
+
+[![125](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/125.png "125")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/125.png "125")
+
+[![126](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/126.png "126")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/126.png "126")
+
+También debemos configurar en propiedades las opciones **Arriba** para saber cuántos correos como máximo queremos traer, habilitar `SoloMensajesNoLeidos` y creamos en salida la variable de tipo lista `lstCorreosEncontrados` para que almacene la info extraída. Se agrega mensaje con el comando `"Correos encontrados: " + lstCorreosEncontrados.Count.ToString` para cuente los correos y de respuesta a manera de String.
+
+[![127](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/127.png "127")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/127.png "127")
+
+Sin embargo, queremos verificar que la información que trajo es correcta así que vamos a imprimir mensaje por cada uno de los correos, con la información del título, cuerpo y fecha. Para facilidad de lectura configure para que solo traiga 5 correos.
+
+Para esto traemos la actividad **Paralelo Para cada,** donde para cada ítem “Correo” en nuestra lista `lstCorreosEncontrados` va registrando el mensaje: `Correo.Subject + Environment.NewLine + Correo.Body + Environment.NewLine + Correo.Headers("Date")`
+
+- `Environment.NewLine` = Salto de línea
+
+Para que nos reconozca la variable de lista de correos tenemos que cambiar el tipo de argumento a `System.Net.Mail.MailMessage` :
+
+[![128](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/128.png "128")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/128.png "128")
+
+[![129](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/129.png "129")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/129.png "129")
+
+[![130](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/130.png "130")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/130.png "130")
+
+Como ejemplo de responder mensajes traemos la actividad **Enviar mensaje de correo SMTP** que habíamos hecho y la editamos para responder, se configura en propiedades la opción **Avanzar: MensajeDeCorreo** con el ítem **Correo** para cada mensaje se enviará una respuesta con un archivo adjunto:
+
+[![131](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/131.png "131")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/131.png "131")
+
+[![132](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/132.png "132")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/132.png "132")
+
+[![133](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/133.png "133")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/133.png "133")
+
+
