@@ -752,4 +752,498 @@ Como ejemplo de responder mensajes traemos la actividad **Enviar mensaje de corr
 
 [![133](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/133.png "133")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/133.png "133")
 
+# Robotic Enterprise Framework – REF
 
+## Introducción REF
+
+¿Que hemos aprendido?
+
+- Que son los selectores.
+- Interactuar con aplicaciones y páginas web.
+- Conexión a Base de Datos.
+- Manejo de Correos.
+
+REF
+
+- Robotic Enterprise Framework.
+- Plantilla de proyecto.
+- Integrada a Orquestador.
+- Basada en estados.
+- Basado en als mejores práticas.
+
+Framework = Entorno de trabajo
+
+Para crear un Proyecto en REF debemos abrir Studio y elegir la plantilla REF.
+
+[![134](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/134.png "134")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/134.png "134")
+
+Proporcionamos el nombre del proyecto, la ruta donde lo vamos a almacenar y opcionalmente una descripción de para qué es este proyecto.
+
+[![135](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/135.png "135")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/135.png "135")
+
+Al abrir el proyecto se verá de la siguiente forma.
+
+[![136](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/136.png "136")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/136.png "136")
+
+#### Estructura del Proyecto
+El proyecto cuenta con 3 partes importantes, veamos una introducción a ellas:
+
+**Cuadro Verde:**
+
+El proyecto REF contiene una carpeta Data que es la carpeta que el Framework recomienda para colocar los archivos de entrada (input), salida (output), temporales (temp) y el archivo Config.xlsx (el cual analizaremos la próxima clase).
+
+**Cuadro Amarillo:**
+
+Es una carpeta con el nombre Framework, contiene los archivos XAML recomendados cómo los mínimos requeridos en el Framework.
+Estos archivos son una recomendación, algunos son requeridos y otros son opcionales, todo depende del tipo de implementación que generarán.
+
+**Cuadro Rojo:**
+
+El archivo **Main.XAML** que ya conocemos, para esta versión en el Framework, es una máquina de estados, lo que nos muestra en su diseño es la máquina de estados completa con sus 4 estados.
+
+- Initialization (Inicialización): En este estado o fase, realizamos la configuración previa para nuestro proceso, abrir páginas web, abrir programas, iniciar sesión en donde se requiera, leer archivos como el Config, Assets, etc).
+
+- Get Transaction Data (Obtener datos de transacción): Esta es el segundo estado o fase, aquí obtendremos un registro de la cola del Orquestador, asignamos ese registro a nuestra variable de transacción y pasamos a Process Transaction, si no hay más datos para transaccionar procedemos a navegar a End Process.
+
+- Process Transaction (Procesar transacción): Esta es el tercer estado o fase, aquí realizamos las tareas que requiere el proceso, validar reglas de negocio, navegar a ciertos sitios, insertar los datos en algún sistema, generar archivos, etc.
+
+- End Process (Finalizar proceso): El último estado o fase, aquí realizamos un cierre de todas las aplicaciones que abrimos. De ser requerido, realizamos la notificación por correo con un resumen de lo realizado. Dependiendo de sus proyectos, también es la etapa donde hacemos un cambio de estado dentro de la base de datos operativos.
+
+#### Comunicación entre estados
+
+REF al ser una máquina de estados, se validan parámetros para identificar cual es el próximo paso a ejecutar.
+En el caso de REF, en la primera transición es de Inicialización hacía “A o B”, donde:
+
+– A) Finalizar Proceso
+– B) Obtener datos.
+
+La pregunta es ¿Cómo sabe a dónde ir?
+
+Para descubrirlo, podemos dar clic en cualquiera de los 2 campos marcados en Rojo.
+
+Pantalla del REF_1
+
+[![137](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/137.png "137")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/137.png "137")
+
+[![138](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/138.png "138")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/138.png "138")
+
+Al hacer el doble clic, se mostrará la vista de Transición del Estado Iniciación.
+
+En la pantalla con los detalles de Transición veremos las reglas de transición en base a validación de datos; en el caso de **Inicialización** se valida la variable SystemException, existiendo 2 casos de validación:
+
+1. Succesful: para indicar qué fue satisfactoria la iniciación, se valida que SystemException no contenga valores, ya que esta variable aloja los errores detectados durante la ejecución. Al no haber errores, se cumple la condición y envía ejecuta la siguiente transición: Obtener Datos (Get Transaction Data).
+
+2. System Exception (Failed): en el caso de que SystemException tenga valor, la validación de condición de Transición para System Exception (Failed) se vuelve verdadera, por lo que redirige el proceso a su estado de Finalizar Proceso (End Process).
+
+[![139](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/139.png "139")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/139.png "139")
+
+Si hacemos clic en cualquiera de los 2 campos marcados en Rojo veremos las validaciones de transacción de Obtener Datos.
+
+[![140](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/140.png "140")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/140.png "140")
+
+Al hacer el doble clic, se mostrará la vista de Transición del Estado Obtener datos de Transacción.
+
+En la pantalla con los detalles de Transición veremos las reglas de transición en base a validación de datos; en el caso de Obtener Datos se valida la variable TransactionItem, existiendo 2 casos de validación:
+
+1. New Transaction: para indicar que fue satisfactoria la obtención de datos, se valida que TransactionItem contenga valores, ya que esta variable aloja la información que trataremos en el Procesado. Al existir información, se cumple la condición y envía ejecuta la siguiente transición: Procesar Transacción (Process Transaction).
+
+2. No Data: en el caso de que TransactionItem no tenga valores, la validación de condición de Transición para No Data se vuelve verdadera, por lo que redirige el proceso a su estado de Finalizar Proceso (End Process).
+
+[![141](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/141.png "141")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/141.png "141")
+
+Si hacemos clic en cualquiera de los 2 campos marcados en Rojo veremos las validaciones de transacción de Procesar Transacción.
+
+[![142](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/142.png "142")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/142.png "142")
+
+Al hacer el doble clic, se mostrará la vista de Transición del Estado Procesar Transacción.
+
+En la pantalla con los detalles de Transición veremos las reglas de transición en base a validación de datos; en el caso de Procesar Transacción se validan 2 variables SystemException y BusinessException:
+
+1. Success: para indicar que el procesamiento de los datos de la transacción fue correcto, se valida que SystemException y BussinesException no contengan valores, de ser así, se detona el SetTransactionStatus.xaml y colocamos el registro en el Orquestador como Finalizado (Success); posteriormente viajamos al Obtener Datos (Get Transaction Data) para solicitar un nuevo registro.
+
+2. Business Rule Exception: cuando la variable BussinesException contiene valores, significa que durante el procesamiento de la información no se cumplió una regla de negocio (ej. El valor de un monto a pagar es superior al permitido por el sistema.). De ser este el caso que nos ocurra, se detona el SetTransactionStatus.xaml y colocamos el registro en el Orquestador como Error (Error); posteriormente viajamos al Obtener Datos (Get Transaction Data) para solicitar un nuevo registro.
+
+3. System Exception: cuando la variable SystemException contiene valores, significa que durante el procesamiento de la información hubo un error en el sistema que no es derivado de una regla de negocio, (ej. El sitio web donde registramos la información cambió de visible a 404 not found) (ej2. Cambiaron las credenciales del correo, no fueron actualizadas en el Asset del Robot y esto no permite la comunicación con la descarga/envío de correos).
+
+[![143](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/143.png "143")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/143.png "143")
+
+[![144](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/144.png "144")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/144.png "144")
+
+[![145](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/145.png "145")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/145.png "145")
+
+Así mismo, posterior a la ejecución del proceso se Ejecuta el XAML llamado SetTransactionStatus.xaml.
+
+[![146](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/146.png "146")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/146.png "146")
+
+En dicho flujo de trabajo tenemos distintas acciones según los resultados de nuestro Process Transaction.
+
+SetTransactionStatus.XAML contiene 3 flujos para las 3 posibles situaciones que se mencionaron anteriormente en el Procesado de la Transacción, Success, Business Rules Exception y System Error.
+
+Por lo general, este XAML no lo modificamos, a menos que sea una situación muy particular, pero es importante conocer cómo funciona.
+Este flujo realiza en el registro del orquestador (el TransactionItem) que procesamos un cambio de estado, siendo Successful o Failed según la situación. Veamos cómo se hace.
+
+Primero el flujo pregunta (en la Decisión “Success”) “¿BusinessException y SystemException contienen información?” si estas variables no contienen valor, navegamos a la Secuencia de Success.
+
+Si la pregunta anterior es positiva, alguna de las variables tiene valores, preguntamos “¿BussinesException tiene valor?” si se determina que es correcto, el flujo se mueve a la Secuencia de “Business Exception”, en caso de que BussinesException no contenga valores navegamos a la Secuencia de SystemException.
+
+[![147](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/147.png "147")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/147.png "147")
+
+[![148](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/148.png "148")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/148.png "148") [![149](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/149.png "149")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/149.png "149")
+
+Una vez que comprendimos cómo se decide cual es la situación resultante, veamos un poco qué acciones realiza cada Secuencia, en general realizan la misma acción, pero cambian los datos que escriben.
+
+La siguiente pantalla es la Secuencia de Success, se realiza un *Set Transaction Status con la Propiedad de Status en Successful.
+
+[![150](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/150.png "150")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/150.png "150")
+
+La siguiente pantalla es la Secuencia de Business Exception, se realiza un *Set Transaction Status con la Propiedad de Status en Failed y el ErrorType como Business.
+
+[![151](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/151.png "151")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/151.png "151")
+
+La siguiente pantalla es la Secuencia de System Exception, se realiza un *Set Transaction Status con la Propiedad de Status en Failed y el ErrorType como Application.
+
+[![152](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/152.png "152")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/152.png "152")
+
+Con esto finalizamos la lectura acerca de REF, en la siguiente clase veremos cómo se configura el archivo Config.xlsx y cómo el robot lo lee (en el estado de Inicialización) y cómo lo consumimos en nuestro proyecto.
+
+#### Conocer el Orquestador
+
+Una vez autenticados en la página navegamos a Services y verificamos que exista un Servicio.
+
+[![154](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/154.png "154")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/154.png "154")
+
+Esperamos a que cargue y nos encontraremos en la vista principal del Orquestador.
+
+Antes de comenzar con las funciones técnicas del Orquestador, vamos a navegar a la sección de My Profile, para esto damos clic en el icono superior derecho con nuestras siglas. Aquí se mostrará una pantalla con sus datos, Selector de Temas y lenguaje.
+
+[![155](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/155.png "155")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/155.png "155")
+
+#### Los menús y sus funciones
+
+El orquestador contiene muchas funcionalidades, algunas de ellas son nuevas, liberadas en las nuevas actualizaciones.
+
+[![156](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/156.png "156")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/156.png "156")
+
+- Robots: aquí podemos monitorear los Robots que tengamos registrados, su estado (conectado o no, disponible u ocupado). No se preocupen si no ven Robots en su Orquestador, los configuraremos la próxima video clase.
+
+- Las Carpetas (Folders): antes eran llamadas Tenants, estas cumplen la función de separar información para distintos roles. Por ejemplo, puedes crear una Carpeta con Robots exclusivos para el área de Recursos Humanos y otra carpeta exclusiva para los Robots del área de Finanzas y Pagos.
+Damos clic en Añadir Carpeta
+Se mostrará una ventana, donde debemos colocar el nombre de la Carpeta. El tipo de carpeta indica cómo obtendrá los robots y datos para su funcionamiento, por recomendación la mejor opción es clásica, ya que así solo se añade lo que deseamos y no hereda nada de otra Carpeta. Esto nos permite un control puntual de que hay en cada carpeta.
+
+[![157](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/157.png "157")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/157.png "157")
+
+- Usuarios (Users): aquí podremos administrar los Usuarios que pueden acceder a nuestro Orquestador y nuestras Carpetas.
+
+- Roles: donde podemos Editar los permisos de los Roles o Añadir Roles (dando clic en el signo de más (+)).
+- Según los roles que configures puedes crear usuarios para personal administrativo que no tengan permiso de modificar Assets (así te proteges de alteraciones no controladas).
+
+- Robots, aquí podemos monitorear los Robots que tengamos registrados, su estado (conectado o no, disponible u ocupado). También cuenta con una pestaña llamada Entorno (Environments), donde podemos añadir Entornos de Trabajo (Realizaremos la configuración en la próxima clase).
+
+- Máquinas (Machine): en esta sección se registran Equipos virtuales basados en nuestro nombre de Equipo físico, esto nos proporcionará una Machine Key que usaremos para vincular el Orquestador con el Robot de nuestro PC, esto lo realizaremos en la próxima vídeo clase.
+
+- Paquetes (Packages): en este apartado, se muestran los proyectos que cargamos a orquestador sea desde el estudio o manualmente (haremos carga de proyectos más adelanta cuando finalicemos el desarrollo).
+
+Ahora les explicaré el grupo de 	, en este grupo están contempladas las funciones usadas para hacer funcionar un proceso automatizado desde el Orquestador (que va de la mano con algunas de las funciones vistas en Administración).
+
+[![158](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/158.png "158")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/158.png "158")
+
+- Procesos(Process): en esta sección, creamos un registro de proceso, donde se asignar el Paquete que cargamos al Orquestador y este es Proceso es el que usamos para crear trabajos. En las siguientes clases veremos a fondo cómo crear el proceso, vincularlo a los paquetes y probarlos en el Robot.
+
+- Colas (Queue): Aquí podemos ver las colas existentes y crearlas, ver los registros de las transacciones que tienen. En las siguientes clases veremos a fondo cómo crear la cola que usaremos en nuestro proyecto.
+
+- Desencadenadores (Triggers): anteriormente se llamaba Programación (Schedule), Aquí realizaremos configuraciones para que un proceso se ejecute en el horario deseado las veces deseadas (ej. Todos los días a las 19 hrs, ejecuta el Proceso 1). Una nueva funcionalidad en el Orquestador que detonó el cambio del nombre, es la sección de Detonación por Cola, que solicita la ejecución de un Proceso cuando una Cola en particular reciba nuevos registros.
+
+- Variables globales (Assets): la última de las pantallas a explicar, pero no por ello la menos importante, de hecho, todo lo contrario, una de las más importantes y utilizadas.
+ 
+La función principal de esta sección es crear variables o recursos que el Robot consumirá durante su ejecución. Estos recursos o Assets pueden ser modificados en cualquier momento, teniendo en cuenta que afectará al Robot hasta su siguiente ejecución (que los leerá de nuevo).
+
+Aquí podemos añadir y editar Assets, que son de distintos tipos. Los campos en rojo son requeridos. Los demás campos son opcionales. En las siguientes clases configuraremos todos los Assets que usaremos durante nuestro Proyecto REF.
+
+[![159](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/159.png "159")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/159.png "159")
+
+El tipo de Valor Global significa que el valor colocado en este Asset será el que leerán todos los Robots, si desactivamos este marcador, el Asset va a requerir que se proporcione el Robot que lo puede consumir y el valor que dicho Robot recibirá.
+
+Esto es práctico cuando por ejemplo cada Robot fuera a usar una credencial distinta para el mismo sistema.
+
+## Analizar el archivo Config
+
+La clase pasada creamos un proyecto REF, en su estructura de proyectos vimos que había un archivo llamado Config.xlsx, un Excel.
+
+[![160](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/160.png "160")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/160.png "160")
+
+### Estructura del archivo
+
+Nuestro Config de Excel, cuenta con 3 hojas y 3 columnas en cada hoja, las hojas son las siguientes:
+
+**Settings:** Esta hoja se utiliza para colocar valores de configuración que por lo general no cambian una vez definidos, por ejemplo, nombre de archivos a generar, rutas de archivos, páginas web de sistemas a utilizar (más adelante configuraremos algunos valores para ejemplificar mejor); esta hoja contiene las 3 columnas siguientes:
+
+- Name: Colocamos aquí el nombre con el que llamaremos en código el valor contenido en Value.
+- Value: Colocamos aquí el valor que se proporcionará al código al ser llamado.
+- Description: Una breve descripción acerca del nombre y el valor del registro.
+
+**Constants:** Esta sección contiene variables constantes, generalmente se utiliza para colocar nombre de Logs, contadores de reintentos y funciones similares.
+
+- Name: Colocamos aquí el nombre con el que llamaremos en código el valor contenido en Value.
+- Value: Colocamos aquí el valor que se proporcionará al código al ser llamado.
+- Description: Una breve descripción acerca del nombre y el valor del registro.
+
+**Assets:** Esta hoja se utiliza para colocar valores de configuración que pueden cambiar y afectan al robot directamente, por ejemplo, credenciales, rutas dinámicas, correos destinatarios, etc (más adelante configuraremos algunos valores para ejemplificar mejor); esta hoja contiene las 3 columnas siguientes:
+
+- Name: Colocamos aquí el nombre con el que llamaremos en código el nombre del Asset.
+- Asset: Es el nombre del Asset como está registrado en el Orquestador.
+- Description: Una breve descripción acerca del Nombre y el Asset del registro.
+
+### Configurando variables en el archivo
+
+A continuación, te mostraré la lista de valores en Setting y en Assets, que serán las configuraciones que usaremos en el desarrollo del proyecto REF en las siguientes clases.
+
+### Replicarlas en tu archivo
+
+Para Settings deben añadir todas las variables del cuadro rojo y modificar los valores de las 2 variables preexistentes.
+
+[![161](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/161.png "161")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/161.png "161")
+
+Para Constants Modificar los campos en rojo, para el segundo campo, tengan en cuenta que la ruta que yo coloqué es la ruta donde está mi proyecto guardado.
+
+[![162](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/162.png "162")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/162.png "162")
+
+Para Assets Añadir los siguientes registros. Estos en la clase siguiente los vamos a crear en el Orquestador.
+
+[![163](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/163.png "163")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/163.png "163")
+
+### ¿Cómo leemos el Config en el Proyecto REF?
+
+Dentro de nuestro proyecto REF, en el estado de Inicialización, tenemos una validación de si el archivo de Config es vacío. Cuando ésta condición se cumple, se ejecutará entre las múltiples acciones un XAML llamado InitAllSettings.
+
+[![164](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/164.png "164")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/164.png "164")
+
+Dentro de InitAllSettings.xaml tenemos las siguientes acciones:
+
+- Assing out_Config, la función de esta asignación es inicializar el diccionario de datos.
+
+[![165](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/165.png "165")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/165.png "165")
+
+- For Each Configuration Sheet, aquí se realiza una lectura de todos los datos encontrados en la hoja Setting y Constants.
+Primero en el Read Range activity se leen las hojas Settings y Constants.
+Luego en el foreach row interno, leemos cada registro de las hojas leídas y guardamos en el diccionario “out_Config” la llave (que corresponde a la columna Name) y el valor (que corresponde a la columna Value).
+
+[![166](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/166.png "166")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/166.png "166")
+
+- Try Initializing Assets, En esta secuencia, se realiza una lectura de la hoja de Assets.
+Primero en el Read Range activity se lee la hoja Assets.
+Luego en el foreach row interno, leemos cada registro de las hojas leídas, posteriormente en el Get Orchestrator Asset, consultamos en el Orquestador el Asset que escribimos en la columna Asset.
+Guardamos en el diccionario “out_Config” la llave (que corresponde a la columna Name) y el valor (que viene del Asset que leímos el paso anterior).
+
+[![167](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/167.png "167")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/167.png "167")
+
+### ¿Cómo utilizar los datos leídos?
+
+Hasta ahora, hemos creado los registros en el archivo Config y hemos aprendido como el Robot los lee, pero nos falta saber utilizar los datos que el robot leyó y guardó en el diccionario llamado “config”.
+
+Para leer los valores de nuestro diccionario debemos invocar la variable Config, abrir paréntesis, colocar entre comillas la palabra clave que registramos en la columna Name y añadir al final un `.ToString`
+
+`Config(“<PalabraClave>”).ToString`
+
+En la siguiente pantalla podemos ver como se invoca el Config (cuadros rojos) y el resultado (cuadros amarillos).
+
+[![168](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/168.png "168")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/168.png "168")
+
+## Sincronizar robot con Orchestrator
+
+Requerimientos para sincronizar:
+
+- Machine key
+- URL Orquestador
+- Datos del ordenador (Usuario y contraseña)
+- UiPath Studio instalado y cuenta
+
+Se utilizó este tutorial como guía para el desarrollo de la sincronización:
+
+🤖 Unattended Robots in Uipath Orchestrator (Full Tutorial)
+https://www.youtube.com/watch?v=5ixkFVEPCAU 
+
+El nombre de la máquina que se está usando se puede conseguir en **Preferences / Orchestrator settings del UiPath Assistant.**
+
+[![169](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/169.png "169")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/169.png "169")
+
+Dentro del perfil del usuario Inquilino se crea la máquina con su respectivo nombre. Se deja sin ninguna de las licencias de tiempo de ejecución.
+
+[![170](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/170.png "170")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/170.png "170")
+
+En nuestro UiPath Studio dentro del **Main** del proyecto REF que se trabaja, se busca la opción de **Publicar:**
+
+[![171](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/171.png "171")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/171.png "171")
+
+Se nombra el paquete en su primera versión 1.0.1 y se procede a publicar la información.
+
+[![172](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/172.png "172")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/172.png "172")
+
+En el **Orchestrator** dentro de la pestaña **Usuarios** se puede visualizar el correo relacionado con el nombre de usuario, seleccionamos opciones y **Editar.**
+
+[![173](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/173.png "173")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/173.png "173")
+
+En la pestaña de **Ajustes de usuario** seleccionamos **Allow to be Automation user (Permitir ser usuario de automatización).**
+
+[![174](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/174.png "174")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/174.png "174")
+
+En la segunda pestaña **Robot desatendido** se habilita la opción de **Crear automáticamente robot desatendido,** el nombre de dominio de usuario se obtiene en la terminal de Windows escribiendo “whoami”. Se introduce una contraseña y dejan las demás opciones como están, luego se Actualiza la información de usuario.
+
+[![175](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/175.png "175")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/175.png "175")
+
+Al revisar en la pestaña de **Robots** se observa el robot desatendido recién creado y ligado con nuestro usuario.
+
+[![176](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/176.png "176")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/176.png "176")
+
+## Creación de colas
+
+Las colas se utilizan para organizar las transacciones a ejecutar.
+
+Dentro de la carpeta principal **PlatziTenant** se busca la pestaña Colas y se crea una nueva, con una descripción y las opciones que tiene para añadir:
+
+[![177](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/177.png "177")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/177.png "177")
+
+Al regresar al **Assistant** en el **Orchestrator settings** se agrega la información restante, la URL del Orchestrator está en el link como muestra la imagen:
+
+[![178](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/178.png "178")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/178.png "178")
+
+La **Machine key (Llave de la máquina)** se puede copiar de la pestaña de Máquinas en el portapapeles:
+
+[![179](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/179.png "179")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/179.png "179")
+
+Una vez llena la información se puede conectar y licenciar con nuestro **Orchestrator.**
+
+[![180](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/180.png "180")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/180.png "180")
+
+### Crear un Asset en el Orquestador
+
+- Contenedores de datos.
+- Pueden ser manipulados.
+- Proporciónan información al Robot.
+
+Para crear estos activos se debe ingresar en la carpeta principal **PlatziTenant** y en la pestaña de **Variables globales** se crea una nueva. De acuerdo con nuestro archivo **Config.xlsx** podemos ingresar el nombre de cada Asset empezando con la primera **RutaCarpetaInsumos** donde están los archivos de entrada del proceso, esta variable es de tipo Texto y se habilita como Variable Global. La ruta la encontramos por medio de **Orchestrator** en la carpeta **Data / Input:**
+
+[![181](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/181.png "181")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/181.png "181")
+
+Se realiza el mismo procedimiento con el activo **RutaCarpetaSalida** la ruta de la carpeta sería **Data / Output.**
+
+Para el Asset de **EnviarCorreoA** se pone como texto la dirección de correo del destinatario:
+
+[![182](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/182.png "182")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/182.png "182")
+
+Hace falta otro activo que nos de las credenciales necesarias para poder identificarse, ingresar y enviar el correo necesario. Este activo **AssetCredencialCorreos** de tipo Credencial permite ingresar la dirección de correo y contraseña del remitente.
+
+[![183](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/183.png "183")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/183.png "183")
+
+Al final del ejercicio se pueden evidenciar los cuatro Assets con su respectiva información y valor:
+
+[![184](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/184.png "184")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/184.png "184")
+
+Dentro del Studio se debe configurar las credenciales con el proceso:
+
+[![185](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/185.png "185")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/185.png "185")
+
+## Inicialización del proyecto REF
+
+Actividades del Proyecto: 
+
+- Inicialización: Leer archivo y crear lista de palabras.
+- Procesar Transacción: Leer palabra clave y registrar en Excel.
+- Finalizar Proceso: Enviar generado por correo.
+
+Para la Inicialización del proyecto REF entramos en el proceso de **Initialization** y abrimos el flujo de trabajo de iniciar el proceso:
+
+[![186](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/186.png "186")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/186.png "186")
+
+Una vez dentro se empieza a configurar un Log Message como Trace para informar que se ha iniciado a leer el texto, luego se agrega actividad Leer archivo de texto y se escribe el siguiente código para mostrar donde y que se está leyendo:
+
+`in_Config("RutaCarpetaInsumos").ToString+"\"+in_Config("NombreArchivoInsumo").ToString`
+
+Se crea la variable tipo String de salida `varTextoLeido` para almacenar todo lo que se esta procesando.
+
+[![187](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/187.png "187")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/187.png "187")
+
+Se agrega la actividad **Asignar** donde se crea un Array de palabras clave `arrayPalabrasClave` el cual se debe poner como tipo de variable `System.String[]`
+
+Su valor será el comando `Split(varTextoLeido, ",")` para organizar cada palabra leída en el Array delimitadas por comas. Para esto el archivo de texto dentro de la carpeta `Data / Input` se modifica para contener las palabras a leer delimitadas.
+
+[![188](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/188.png "188")](https://raw.githubusercontent.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/main/img/188.png "188")
+
+Seguido de esto se agrega la actividad Paralelo Para cada dónde para cada ítem en el `arrayPalabrasClave` se realiza lo que contiene su body. Para este se agrega actividad **Añadir elemento de la cola** y se configura su NombreDeCola con el código `in_Config("OrchestratorQueueName").ToString`
+
+[![189](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/189.png?raw=true "189")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/189.png?raw=true "189")
+
+Antes de **Añadir elemento de la cola** se agrega otra actividad de Asignar donde se crea variable `varContador` que se encargará de sumar 1 cada vez que se lea un ítem del Array. En la InformaciónDeElemento se configura de la siguiente manera las variables de entrada de **PalabrasClave** y **Fila,** de tipo String y Número entero respectivamente con su valor:
+
+[![190](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/190.png?raw=true "190")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/190.png?raw=true "190")
+
+Para no generar error se configura la actividad **Paralelo Para cada** con el fin de que el Tipo de argumento de entrada es un String:
+
+[![191](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/191.png?raw=true "191")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/191.png?raw=true "191")
+
+## Etapa de procesamiento de datos
+
+Dentro del proceso **Process Transaction** abrimos el flujo de trabajo que se observa:
+
+[![192](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/192.png?raw=true "192")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/192.png?raw=true "192")
+
+[![193](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/193.png?raw=true "193")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/193.png?raw=true "193")
+
+Se agrega actividad **Ámbito de aplicación de Excel** para trabajar con el software y se escribe el código `in_Config("RutaCarpetaSalida").ToString+"\"+in_Config("NombreReporteGenerar").ToString` para especificar la carpeta donde estará el archivo Excel, si no existe se crea.
+
+Dentro de este se agrega secuencia **Hacer** y dentro la actividad Escribir celda donde se configura la hoja, la celda y el mensaje a escribir:
+
+[![194](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/194.png?raw=true "194")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/194.png?raw=true "194")
+
+Luego se agrega actividad **Asignar** donde se crea variable `varFila` de tipo String y su valor es el código `in_TransactionItem.SpecificContent("Fila").ToString` para que nos indique el valor de la fila.
+
+En otro **Asignar** se crea un contador `varContadorFila` para que agregue 1 a la variable VarFila y se pueda seguir escribiendo una fila después con el comando `1+int32.Parse(varFila)`
+
+Se agrega actividad Escribir celda especificando la Hoja, la celda de acuerdo con el contador que se lleva `“A"+varContadorFila.ToString` y el valor que se quiere escribir es la palabra clave como un string con el siguiente comando `in_TransactionItem.SpecificContent("PalabrasClave").ToString`
+
+[![195](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/195.png?raw=true "195")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/195.png?raw=true "195")
+
+## Finalizando nuestro proyecto REF
+
+Se ingresa en proceso **End Process** se observa dentro de actividad **Try** que por defecto **CloseAllApps.xaml** se utiliza para cerrar pero en nuestro caso no utilizamos aplicaciones, así que lo borramos.
+
+[![196](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/196.png?raw=true "196")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/196.png?raw=true "196")
+
+Se agrega secuencia **Envío de Correo** la cual extraemos como un Flujo de trabajo y guardamos en la carpeta **ImplementacionProceso / Finalizacion:**
+
+[![197](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/197.png?raw=true "197")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/197.png?raw=true "197")
+
+[![198](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/198.png?raw=true "198")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/198.png?raw=true "198")
+
+Una vez creado se crea variable **in_Config** se configura su Tipo buscando como Dictionary< String,Object >
+
+[![199](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/199.png?raw=true "199")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/199.png?raw=true "199")
+
+Se agrega actividad **Obtener credencial** en la cual como entrada se utiliza comando con relación con Asset creado `in_Config("AssetCredencialCorreos").ToString`
+
+Como salida se crea variables **varUsuario** y **varContraseña** la cual queda guardada como **SecureString.** Para la RutaDeCarpetaDeOrchestrator se configura lo siguiente `in_Config("OrchestratorFolderName").ToString`
+
+[![200](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/200.png?raw=true "200")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/200.png?raw=true "200")
+
+Como requerimos utilizar funciones de correo se requiere tener instalado el paquete `UiPath.Mail.Acivities`
+
+[![201](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/201.png?raw=true "201")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/201.png?raw=true "201")
+
+Seguido se adiciona actividad **Enviar mensaje de correo SMTP** en el que escribimos para quien va relacionado con el Asset creado anteriormente `in_Config("EnviarCorreoA").ToString`
+
+Como asunto el mensaje y la fecha corta `"Reporte de resultado del proceso "+DateTime.Now.ToShortDateString`  acompañado del mensaje del cuerpo del correo.
+
+Para el **Puerto** escribimos el comando `int32.Parse(in_Config("SMTP_Puerto").ToString)` que lee lo que ya configuramos en Settings en archivo Config.  Lo mismo funciona para el Servidor previamente escrito en el archivo `in_Config("SMTP_Servidor").ToString`
+
+Para el inicio de sesión se utiliza el siguiente comando para manejar las credenciales del correo guardado 
+
+`New System.Net.NetworkCredential(String.Empty, varContrasena).Password`
+
+[![202](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/202.png?raw=true "202")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/202.png?raw=true "202")
+
+Una vez terminado el **Try** se selecciona como Exception la opción **System.Exception,** y se le adiciona un mensaje de tipo Fatal con el mensaje de error, un salto de línea y el mensaje de Exception
+
+`"Ha ocurrido un error en el envío del correo. "+Environment.NewLine+exception.Message`
+
+[![203](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/203.png?raw=true "203")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/203.png?raw=true "203")
+
+[![204](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/204.png?raw=true "204")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/204.png?raw=true "204")
