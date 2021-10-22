@@ -38,7 +38,6 @@
   - [Interactuar con Correo](#interactuar-con-correo)
 - [Robotic Enterprise Framework – REF](#robotic-enterprise-framework--ref)
   - [Introducción REF](#introducción-ref)
-  
   - [Conocer el Orquestador](#conocer-el-orquestador)
   - [Analizar el archivo Config](#analizar-el-archivo-config)
   - [Sincronizar robot con Orchestrator](#sincronizar-robot-con-orchestrator)
@@ -944,7 +943,7 @@ La siguiente pantalla es la Secuencia de System Exception, se realiza un *Set Tr
 
 Con esto finalizamos la lectura acerca de REF, en la siguiente clase veremos cómo se configura el archivo Config.xlsx y cómo el robot lo lee (en el estado de Inicialización) y cómo lo consumimos en nuestro proyecto.
 
-#### Conocer el Orquestador
+## Conocer el Orquestador
 
 Una vez autenticados en la página navegamos a Services y verificamos que exista un Servicio.
 
@@ -1285,3 +1284,142 @@ Una vez terminado el **Try** se selecciona como Exception la opción **System.Ex
 [![203](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/203.png?raw=true "203")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/203.png?raw=true "203")
 
 [![204](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/204.png?raw=true "204")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/204.png?raw=true "204")
+
+# Arquitectura de Software
+
+## Proyecto final
+
+Las próximas 2 clases, utilizaremos esta solicitud de proyecto para trabajar las actividades de la clase, les recomiendo copiar el texto de la propuesta a un bloc de notas para tenerlo a la mano cuando realicemos las actividades de las clases.
+
+**Situación actual:**
+
+Actualmente Celis está creando en archivos de Excel con la lista de los cursos que encuentra al realizar ciertas búsquedas basadas en palabras claves. Después de 2 horas genera una lista con los siguientes datos:
+
+- Nombre del Curso
+- Página Web del Curso
+- Nombre del Profesor (si son varios profesores se marca como “múltiples profesores”)
+
+Ya con el archivo generado, se realiza un análisis de la información obtenida desde el buscador para optimizar sus resultados.
+
+**Solicitud:**
+
+Freddy considera que se invierte mucho tiempo en la extracción de la información, por lo que busca un desarrollador RPA que le dé una propuesta de la arquitectura (de hardware) requerida para automatizar este proceso, una propuesta de proyecto y una estimación del tiempo que tardará el robot en realizar la extracción de los datos.
+
+- El archivo de palabras claves es proporcionado por un archivo de texto, las palabras claves estarán separadas por coma. Si hay 2 palabras seguidas sin coma, por ejemplo, “Programación Avanzada” se debe utilizar la búsqueda de las dos palabras al mismo tiempo en el buscador.
+- El Excel generado debe contener 1 hoja por cada palabra clave usada en el buscador.
+- Se requiere un solo Excel con todos los resultados.
+- El Excel debe contener 3 columnas, Nombre del Curso, Página Web y Profesor (si son varios, colocar “Múltiples profesores”).
+- Se requiere que la página web sea completa (ej. https://platzi.com/clases/programacion-basica/ ) 
+- El Excel debe ser enviado por correo diariamente.
+- Se requiere el Excel en la bandeja de correo antes de las 9:30am.
+- Se busca que el proyecto sea funcional sin importar el costo, pero se dará mayor prioridad a las propuestas más económicas.
+
+**Información adicional:**
+
+Se cuenta actualmente con la siguiente infraestructura:
+
+- Se cuenta con un Windows Server con espacio disponible para montar más sitios web en el IIS.
+- Se cuenta con una Instancia de Base de Datos con espacio para almacenar más bases de datos de ser requerido.
+- Hay dos equipos Laptop Windows 10 que quedan desocupados de 19hrs a 21hrs posteriormente se apagan por políticas de la empresa. Dichos equipos no cuentan con acceso al repositorio donde se aloja el insumo de “palabra_claves.txt”. Se puede revisar con infraestructura dar acceso de ser necesario.
+
+**Propuesta:**
+
+La propuesta entregada por el desarrollador que desea participar en la licitación debe contener.
+
+- Propuesta de Arquitectura
+  ¿Cuántos equipos requieren?
+  ¿Requieren que sean nuevos?
+
+- Propuesta de Solución
+  ¿Cómo funcionará el proyecto?
+  ¿Estructura del proyecto (modulación)?
+  ¿Tiempo estimado de desarrollo?
+  ¿Tiempo estimado de ejecución del proceso?
+
+## Arquitectura para los proyectos
+
+Las soluciones RPA tienen 2 tipos de soluciones, que varían según las necesidades del proyecto.
+
+Los dos tipos de soluciones son las siguientes:
+
+### 1. Solución estándar
+
+UiPath recomienda la siguiente configuración como estándar, sin Alta disponibilidad; la estructura cuenta con los siguientes miembros:
+
+- Robots: Es quien ejecuta las tareas desarrolladas, generalmente en un equipo independiente.
+- Orquestador: Servidor Windows Server qué debe tener comunicación hacía SQL Server y hacía los Robots.
+- SQL Server: Es un Servidor (o servicio, según la infraestructura) que aloja la base de datos del Orquestador.
+- (Opcional) Elasticsearch: Servicio opcional, ElasticSearch es utilizado por el Orquestador para alojar los Logs de ejecuciones, de control, de fallos, esto es recomendado para:
+
+  - No saturar la base de datos SQL con logs.
+  - Elasticsearch puede ser combinado con otros softwares (como Kibana) para una explotación de los LOGS, generación de reportes, visualización gráfica, etc.
+
+[![205](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/205.png?raw=true "205")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/205.png?raw=true "205")
+
+[![206](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/206.png?raw=true "206")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/206.png?raw=true "206")
+
+### 2. Solución de Alta Disponibilidad
+
+La estructura de Alta Disponibilidad que UiPath recomienda es la siguiente:
+
+- Robots: Deben estar conectados por un balanceador a los orquestadores.
+- 2 orquestadores: Conectador por Redis, un orquestador funciona como activo y el otro como pasivo. Solo el activo opera, si el que opera falla, entra el pasivo a seguir dando soporte a los robots.
+- 2 SQL Server: Ambos balanceados por instancia, funcionan de manera activa – pasiva igual que los orquestadores.
+- 3 Redis: Mantienen un monitoreo de comunicación entre los Orquestadores, si el activo cae, son los Redis los encargados de activar el Orquestador en “espera” para operar
+- (Opcional) 2 o más Elasticsearch: Ambos balanceados por instancia, funcionan de manera activa – pasiva igual que los orquestadores.
+
+## La arquitectura de nuestro proyecto
+
+Propuesta de Diagrama del proyecto:
+
+[![207](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/207.png?raw=true "207")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/207.png?raw=true "207")
+
+## Modulando un proceso Automatizado
+
+Partir los procesos en pequeños subprocesos.
+
+- Hacer una propuesta de solución de software para el proceso de Platzi.
+
+¿Para qué nos sirve modular?
+
+- Darle mantenimiento al código fácil y rápido.
+- En mi experiencia: +2 módulos usando bases de datos para controlar los estados de los registros.
+- Facilita la comunicación y el control de la información.
+
+[![208](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/208.png?raw=true  "208")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/208.png?raw=true  "208")
+
+Archivo Bizagi 
+
+Propuesta de Proceso Global:
+
+[![209](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/209.png?raw=true "209")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/209.png?raw=true "209")
+
+Módulos de la propuesta de Proceso Global:
+
+[![210](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/210.png?raw=true "210")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/210.png?raw=true "210")
+
+## Solución del proyecto final
+
+La solución al Proyecto final se encuentra en GitHub de Profesor Jorge Falcon, divida en dos partes de acuerdo con los módulos planteados: https://github.com/JFEspanolito?tab=repositories
+
+## Centro de Excelencia
+
+Documentación completa del Proceso Automatizado.
+
+- Manuales de instalación.
+- Manuales de Confuración.
+
+Capacitar los usuarios.
+
+- ¿Como funciona el Orchestador?
+- ¿Como desarrollar sus propias automatizaciones?
+
+Como guía se puede utilizar el Pase QA del Proyecto Final planteado por Falcón, que es la documentación oficial del proyecto que abarca desde su alcance, requisitos, configuración de robot, queues y assets utilizados, anexos y referencias, entre otras.
+
+Archivo
+
+[![211](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/211.png?raw=true "211")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/211.png?raw=true "211")
+
+“Truco” de documentación:
+
+[![212](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/212.png?raw=true "212")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/212.png?raw=true "212")
