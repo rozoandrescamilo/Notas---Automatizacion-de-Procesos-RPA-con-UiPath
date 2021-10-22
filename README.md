@@ -1388,7 +1388,7 @@ Partir los procesos en pequeños subprocesos.
 
 [![208](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/208.png?raw=true  "208")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/208.png?raw=true  "208")
 
-Archivo Bizagi 
+Archivo Bizagi https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/proyectoplatzi_modeladodesolucion_1cba388b-bf6c-416e-8860-46741167c5fe.bpm
 
 Propuesta de Proceso Global:
 
@@ -1416,7 +1416,7 @@ Capacitar los usuarios.
 
 Como guía se puede utilizar el Pase QA del Proyecto Final planteado por Falcón, que es la documentación oficial del proyecto que abarca desde su alcance, requisitos, configuración de robot, queues y assets utilizados, anexos y referencias, entre otras.
 
-Archivo
+Archivo https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/paseqa_proyectofinaldelcurso_f372f9be-b7d3-4aa0-83cc-ec8c93cb4e56.docx
 
 [![211](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/211.png?raw=true "211")](https://github.com/hackmilo/Notas---Automatizacion-de-Procesos-RPA-con-UiPath/blob/main/img/211.png?raw=true "211")
 
